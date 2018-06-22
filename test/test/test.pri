@@ -1,0 +1,2 @@
+INCLUDEPATH+=../../../
+INCLUDEPATH+=../../../cppjson/include
