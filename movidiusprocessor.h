@@ -36,7 +36,7 @@ void set_item(PyObject* pArgs,int index,HEAD arg,T...args)
     set_item(pArgs,index,args...);
 }
 template <class... T>
-int call_py(string fun_name,PyObject *pDict,T...args )
+PyObject * call_py(string fun_name,PyObject *pDict,T...args )
 {
     PyObject*pFunc,*pArgs;
     // printf("sz %d\n",sizeof...(args));
@@ -44,16 +44,16 @@ int call_py(string fun_name,PyObject *pDict,T...args )
     if ( !pFunc || !PyCallable_Check(pFunc) ) {
         printf("can't find function [%s]",fun_name.data());
         // getchar();
-        return -1;
+        //return -1;
     }
     int sz=sizeof...(args);
     pArgs = PyTuple_New(sz);
     set_item(pArgs,0,args...);
     //    for(int i=0;i<sz;i++)
     //        PyTuple_SetItem(pArgs, i, Py_BuildValue(args[i].des,args[i].data));
-    PyObject_CallObject(pFunc, pArgs);
+    PyObject*ret=PyObject_CallObject(pFunc, pArgs);
     Py_DECREF(pArgs);
-    return 0;
+    return ret;
 }
 
 class MovidiusProcessor
@@ -65,15 +65,23 @@ public:
         static MovidiusProcessor pro;
         return pro;
     }
+
     void process(Mat frame)
     {
         lock.lock();
         result.clear();
+
+
         PyObject* obj = cvt.toNDArray(frame);
         py_arg_t<PyObject*> test_arg(obj,"O");
 
-        call_py("process",pDict,test_arg);
+        PyObject* rect_data;
 
+        PyObject* ret_objs;
+        rect_data= call_py("process",pDict,test_arg);
+        PyArg_Parse(rect_data, "O!", &PyList_Type, &ret_objs);
+        int size=PyList_Size(ret_objs);
+        printf("-----------get object rects: %d-----------\n",size/4);
         lock.unlock();
     }
 
@@ -96,6 +104,7 @@ private:
 
         // 关闭Python
         Py_Finalize();
+        call_py("release",pDict);
     }
 
     void init()
@@ -106,13 +115,16 @@ private:
         pModule = PyImport_Import(pName);
         if ( !pModule ) {
             printf("can't find .py");
-
-
         }
         pDict = PyModule_GetDict(pModule);
         if ( !pDict ) {
             printf("can't find dict");
         }
+
+
+
+
+        call_py("init",pDict);
 
     }
 
