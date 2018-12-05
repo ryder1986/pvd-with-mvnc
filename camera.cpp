@@ -63,7 +63,7 @@ void Camera::run()
     int i=0;
     int sz=0;
     Mat frame;
-    threadid=(int)QThread::currentThread();
+  //  threadid=(int)QThread::currentThread();
     QByteArray rst;
     vector<JsonValue> channel_data;
     VideoProcessor *pro;

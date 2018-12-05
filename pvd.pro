@@ -11,34 +11,57 @@ DEFINES +=IS_UNIX
 QMAKE_CXXFLAGS+=-w
 }
 
+#SOURCES += main.cpp \
+#    videoprocessor.cpp \
+#    server.cpp \
+#    processeddatasender.cpp \
+#    clientsession.cpp \
+#    cameramanager.cpp \
+#    camera.cpp C4Common.cpp pvdprocessor.cpp tool.cpp videosource.cpp filedatabase.cpp pvd.cpp \
+#    locationservice.cpp \
+#    pvdhogprocessor.cpp \
+#    movidiusprocessor.cpp \
+#    conversion.cpp
+#HEADERS += \
+#    videoprocessor.h \
+#    server.h \
+#    processeddatasender.h \
+#    clientsession.h \
+#    cameramanager.h \
+#    camera.h C4Common.h  pvdprocessor.h tool.h pvd.h videosource.h filedatabase.h \
+#    locationservice.h \
+#    pvdhogprocessor.h \
+#    movidiusprocessor.h \
+#    conversion.h
+##SOURCES += main.cpp \
+##    movidiusprocessor.cpp \
+##    conversion.cpp
+##HEADERS += \
+##    movidiusprocessor.h \
+##    conversion.h
+#INCLUDEPATH+=cppjson/include
+#SOURCES += \
+#    cppjson/json_reader.cpp \
+#    cppjson/json_value.cpp \
+#    cppjson/json_writer.cpp
+
+
+
+
+
 SOURCES += main.cpp \
-    videoprocessor.cpp \
-    server.cpp \
-    processeddatasender.cpp \
-    clientsession.cpp \
-    cameramanager.cpp \
-    camera.cpp C4Common.cpp pvdprocessor.cpp tool.cpp videosource.cpp filedatabase.cpp pvd.cpp \
-    locationservice.cpp \
-    pvdhogprocessor.cpp \
     movidiusprocessor.cpp \
     conversion.cpp
 HEADERS += \
-    videoprocessor.h \
-    server.h \
-    processeddatasender.h \
-    clientsession.h \
-    cameramanager.h \
-    camera.h C4Common.h  pvdprocessor.h tool.h pvd.h videosource.h filedatabase.h \
-    locationservice.h \
-    pvdhogprocessor.h \
     movidiusprocessor.h \
     conversion.h
 
-INCLUDEPATH+=cppjson/include
-SOURCES += \
-    cppjson/json_reader.cpp \
-    cppjson/json_value.cpp \
-    cppjson/json_writer.cpp
+
+
+
+
+
+
 
 
 INCLUDEPATH+=track

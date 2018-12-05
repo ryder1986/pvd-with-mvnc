@@ -9,7 +9,7 @@
 #include <opencv2/video/video.hpp>
 #include <opencv2/ml/ml.hpp>
 #include <opencv2/objdetect/objdetect.hpp>
-#include <thread>
+
 #include <mutex>
 #include "conversion.h"
 using namespace cv;
@@ -71,32 +71,23 @@ public:
     void process(Mat frame)
     {
         lock.lock();
-        printf(" processing \n");fflush(NULL);
         result.clear();
-//        printf("----------- cvt -----------\n");fflush(NULL);
-//        //  NDArrayConverter cvt;
+        printf("----------- cvt -----------\n");fflush(NULL);
+        //  NDArrayConverter cvt;
 
-//        //obj = cvt.toNDArray(frame);
-//        printf("----------- cvt done-----------\n");fflush(NULL);
-
-
-         py_arg_t<PyObject*> test_arg(convert(frame),"O");
-
-#if 1
-         //call_py("process",pDict,test_arg);
-           call_py("process123",pDict);
-#else
-
-       PyObject* rect_data;
-
-       PyObject* ret_objs;
-          rect_data= call_py("process",pDict,test_arg);
+        //obj = cvt.toNDArray(frame);
+        printf("----------- cvt done-----------\n");fflush(NULL);
 
 
-         PyArg_Parse(rect_data, "O!", &PyList_Type, &ret_objs);
+        py_arg_t<PyObject*> test_arg(convert(frame),"O");
+
+        PyObject* rect_data;
+
+        PyObject* ret_objs;
+        rect_data= call_py("process",pDict,test_arg);
+        PyArg_Parse(rect_data, "O!", &PyList_Type, &ret_objs);
         int size=PyList_Size(ret_objs);
-         printf("-----------get object rects: %d-----------\n",size/4);
-#endif
+        printf("-----------get object rects: %d-----------\n",size/4);
         lock.unlock();
     }
 
@@ -174,10 +165,10 @@ private:
         if ( !pDict ) {
             printf("can't find dict");fflush(NULL);
         }else{
-            printf("dict found\n");fflush(NULL);
+               printf("dict found\n");fflush(NULL);
         }
-      //  this_thread::sleep_for(chrono::microseconds(3000000));
-        call_py("funaaa",pDict);
+       // call_py("init",pDict);
+        call_py("process123",pDict);
 
     }
 

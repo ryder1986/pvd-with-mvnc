@@ -265,7 +265,7 @@ public slots:
 private:
     QList <QString> ip_list;
     //    int frame_rate;
-    int threadid;
+ //   int threadid;
     QTimer *tmr;
     VideoSource *src;
     //  VideoProcessor *processor;
